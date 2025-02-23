@@ -1,0 +1,323 @@
+BACKUP ~weidu_external/BloodAndFaith/backup~
+AUTHOR ~Glittergear~
+VERSION ~1.0~
+
+
+ALWAYS
+
+	ACTION_IF GAME_IS ~bgee~ BEGIN
+	
+		INCLUDE ~BloodAndFaith/lib/g3_bgee_cpmvars.tpa~
+		PRINT @1 /* Game is bgee */
+		
+	END ELSE ACTION_IF GAME_IS ~eet~ BEGIN
+	
+		INCLUDE ~eet/other/cpmvars/eet_cpmvars.tpa~
+		PRINT @2 /* Game is EET */
+		
+	END ELSE ACTION_IF GAME_IS ~bgt~ BEGIN
+	
+		INCLUDE ~BloodAndFaith/lib/g3_bgt_cpmvars.tpa~
+		PRINT @3 /* Game is BGT */
+		
+	END
+
+    //Copies tra files into the autotra-folder (to leave the originals untouched)
+    DEFINE_ACTION_FUNCTION autotra_workaround BEGIN
+      COPY ~BloodAndFaith/Languages/english~			~weidu_external/BloodAndFaith/Languages/autotra/%LANGUAGE%~
+      COPY ~BloodAndFaith/Languages/english/Dlg~		~weidu_external/BloodAndFaith/Languages/autotra/%LANGUAGE%/Dlg~
+      COPY ~BloodAndFaith/Languages/%LANGUAGE%~			~weidu_external/BloodAndFaith/Languages/autotra/%LANGUAGE%~
+      COPY ~BloodAndFaith/Languages/%LANGUAGE%/Dlg~		~weidu_external/BloodAndFaith/Languages/autotra/%LANGUAGE%/Dlg~
+    END
+
+    LAF autotra_workaround END
+
+// Convert tra files in UTF8 if EE and let them in ANSI if oBG
+
+	ACTION_IF GAME_IS ~bgee eet~ BEGIN
+//  ACTION_DEFINE_ARRAY BloodAndFaith_noconvert BEGIN END
+
+		ACTION_DEFINE_ARRAY BloodAndFaith_reload BEGIN BloodAndFaith JournalEntries END
+
+			LAF HANDLE_CHARSETS
+				INT_VAR
+				infer_charsets = 1
+				STR_VAR
+				tra_path = EVAL ~weidu_external/BloodAndFaith/Languages/autotra~
+				out_path = EVAL ~weidu_external/BloodAndFaith/Languages/autotra/UTF8~
+				iconv_path = ~BloodAndFaith/Languages/autotra/iconv~
+				// noconvert_array = BloodAndFaith_noconvert
+				reload_array = BloodAndFaith_reload
+			END
+
+	// UTF8 only
+	COPY ~weidu_external/BloodAndFaith/Languages/autotra/UTF8/%LANGUAGE%~				~weidu_external/BloodAndFaith/Languages/autotra/%LANGUAGE%~
+	COPY ~weidu_external/BloodAndFaith/Languages/autotra/UTF8/%LANGUAGE%/Dlg~			~weidu_external/BloodAndFaith/Languages/autotra/%LANGUAGE%/Dlg~
+	END
+
+END
+
+AUTO_TRA ~weidu_external/BloodAndFaith/Languages/autotra/%s~ //The "%s" reads in the chosen language folder via LANGUAGE. Currently there is only one.
+AUTO_TRA ~weidu_external/BloodAndFaith/Languages/autotra/%s/Dlg~
+
+
+LANGUAGE ~English~
+         ~english~   
+         ~BloodAndFaith/Languages/english/BloodAndFaith.tra~ //you'd put the mod title in here.
+         ~BloodAndFaith/Languages/english/JournalEntries.tra~
+
+
+BEGIN @4 /* Blood and Faith Installation */
+
+ADD_JOURNAL TITLE (@5099) @5100 @5101 @5102 @5103 @5104 @5105 @5106 @5107 @5108 @5109 @5110 @5111 @5113  @5116 @5117 @5118 @5119 @5120 @5121 @5122 @5123 @5124 @5125 @5126 @5127 @5128 @5129 @5130 @5131 @5132 @5133 @5134 @5135 @5136 @5137 @5138 @5139 @5140 @5141 @5142 USING ~weidu_external/BloodAndFaith/Languages/autotra/%s/JournalEntries.tra~
+
+//Portraits
+
+COPY ~BloodAndFaith/portraits/all~ ~override~
+
+
+//spawns
+EXTEND_TOP ~%NBaldursGate_TempleofHelm_BCS%.bcs~ ~BloodAndFaith/Scripts/AR0002.baf~ //spawns arty
+EXTEND_TOP ~%BaldursGate_Undercellars_BCS%.bcs~ ~BloodAndFaith/Scripts/AR0112.baf~ //mordy
+EXTEND_TOP ~%ESewers_BCS%.bcs~ ~BloodAndFaith/Scripts/AR0226.baf~ //doppelganger
+EXTEND_TOP ~%EBaldursGate_SilencesShop_BCS%.bcs~ ~BloodAndFaith/Scripts/AR0809.baf~ //spawns loviatan
+EXTEND_TOP ~%BanditCamp_BCS%.bcs~ ~BloodAndFaith/Scripts/AR1900.baf~ //spawns ex-thief
+EXTEND_TOP ~%CloakwoodNest_BCS%.bcs~ ~BloodAndFaith/Scripts/AR2100.baf~ //spawns cloakwood
+EXTEND_TOP ~%CoastWay_BCS%.bcs~ ~BloodAndFaith/Scripts/AR2800.baf~ //coastway zhent
+EXTEND_TOP ~g_warren.bcs~ ~BloodAndFaith/Scripts/g_warren.baf~ 
+EXTEND_TOP ~%UlcasterRuins_BCS%.bcs~ ~BloodAndFaith/Scripts/AR3901.baf~ //spawns necro
+EXTEND_TOP ~%Beregost_House12_L1_BCS%.bcs~ ~BloodAndFaith/Scripts/AR3311.baf~
+EXTEND_TOP ~%Beregost_House12_L2_BCS%.bcs~ ~BloodAndFaith/Scripts/AR3312.baf~
+EXTEND_TOP ~%Beregost_House23_L1_BCS%.bcs~ ~BloodAndFaith/Scripts/AR3325.baf~
+EXTEND_TOP ~%Beregost_House23_L2_BCS%.bcs~ ~BloodAndFaith/Scripts/AR3326.baf~
+EXTEND_TOP ~%Beregost_RedSheaf_L1_BCS%.bcs~ ~BloodAndFaith/Scripts/AR3357.baf~
+EXTEND_TOP ~%Temple_SongoftheMorning_BCS%.bcs~ ~BloodAndFaith/Scripts/AR3402.baf~
+EXTEND_TOP ~%Nashkel_BCS%.bcs~ ~BloodAndFaith/Scripts/AR4800.baf~
+EXTEND_TOP ~%Nashkel_TempleofHelm_BCS%.bcs~ ~BloodAndFaith/Scripts/AR4802.baf~
+EXTEND_TOP ~%LonelyPeaks_BCS%.bcs~ ~BloodAndFaith/Scripts/AR4400.baf~ //spawns cannibal
+
+//scripts
+COMPILE ~BloodAndFaith/Scripts/g_BFat.baf~
+COMPILE ~BloodAndFaith/Scripts/g_BFat2.baf~
+COMPILE ~BloodAndFaith/Scripts/g_BFat3.baf~
+
+//dialogues
+COMPILE ~BloodAndFaith/dialogues/d_BF3gk.d~
+COMPILE ~BloodAndFaith/dialogues/d_BF3z.d~
+COMPILE ~BloodAndFaith/dialogues/d_BF9ov.d~
+COMPILE ~BloodAndFaith/dialogues/d_gBFgh.d~
+COMPILE ~BloodAndFaith/dialogues/d_gBF1w.d~
+COMPILE ~BloodAndFaith/dialogues/d_gBF1ho.d~
+COMPILE ~BloodAndFaith/dialogues/d_gBF4ho.d~
+COMPILE ~BloodAndFaith/dialogues/d_gBF4rk.d~
+COMPILE ~BloodAndFaith/dialogues/d_gBF7st.d~
+COMPILE ~BloodAndFaith/dialogues/d_gBFart.d~
+COMPILE ~BloodAndFaith/dialogues/d_gBFdop.d~
+COMPILE ~BloodAndFaith/dialogues/d_gBFdrZ.d~
+COMPILE ~BloodAndFaith/dialogues/d_gBFlov.d~
+COMPILE ~BloodAndFaith/dialogues/d_gBFmor.d~
+COMPILE EVALUATE_BUFFER ~BloodAndFaith/dialogues/d_gBFmqg.d~
+COMPILE ~BloodAndFaith/dialogues/d_gBFzh1.d~
+COMPILE ~BloodAndFaith/dialogues/d_gBFzl.d~
+
+//creatures
+COPY ~BloodAndFaith/creatures/g_bart.cre~ ~override/g_bart.cre~ 
+	SAY NAME1 @5 /* Arteger */
+	SAY NAME2 @5 /* Arteger */
+
+COPY ~BloodAndFaith/creatures/g_bfgho.cre~ ~override/g_bfgho.cre~ 
+	SAY NAME1 @6 /* Ghost */
+	SAY NAME2 @6 /* Ghost */
+
+COPY ~BloodAndFaith/creatures/g_bfgra.cre~ ~override/g_bfgra.cre~ //
+	SAY NAME1 @7 /* Gravekeeper */
+	SAY NAME2 @7 /* Gravekeeper */
+
+COPY ~BloodAndFaith/creatures/g_bfhom.cre~ ~override/g_bfhom.cre~ //
+	SAY NAME1 @8 /* Homeowner */
+	SAY NAME2 @8 /* Homeowner */
+
+COPY ~BloodAndFaith/creatures/g_bfhow.cre~ ~override/g_bfhow.cre~ //
+	SAY NAME1 @8 /* Homeowner */
+	SAY NAME2 @8 /* Homeowner */
+
+COPY ~BloodAndFaith/creatures/g_bfovl.cre~ ~override/g_bfovl.cre~ //
+	SAY NAME1 @9 /* Ovlin */
+	SAY NAME2 @9 /* Ovlin */
+
+// Missing COMPB05.itm replaced by BOW01.itm for BGT
+		ACTION_IF GAME_IS ~bgt~ BEGIN
+COPY_EXISTING ~g_bfovl.cre~ ~override/g_bfovl.cre~
+	REPLACE_CRE_ITEM ~BOW01~ #0 #0 #0 ~none~ ~weapon2~ EQUIP
+		END
+
+COPY ~BloodAndFaith/creatures/g_bfre.cre~ ~override/g_bfre.cre~ //
+	SAY NAME1 @10 /* Officer Reatin */
+	SAY NAME2 @10 /* Officer Reatin */
+WRITE_ASCII SCRIPT_RACE ~~ (8) // Unused script
+
+// Remove missing UNIFLAM.itm for BGT
+		ACTION_IF GAME_IS ~bgt~ BEGIN
+COPY_EXISTING ~g_bfre.cre~ ~override/g_bfre.cre~
+	REMOVE_CRE_ITEM ~UNIFLAM~ ~cloak~
+		END
+
+COPY ~BloodAndFaith/creatures/g_bfwi.cre~ ~override/g_bfwi.cre~ //
+	SAY NAME1 @11 /* Widow */
+	SAY NAME2 @11 /* Widow */
+
+COPY ~BloodAndFaith/creatures/g_bfzom.cre~ ~override/g_bfzom.cre~ //
+	SAY NAME1 @12 /* Friendly Zom */
+	SAY NAME2 @12 /* Friendly Zom */
+
+COPY ~BloodAndFaith/creatures/g_bZhent.cre~ ~override/g_bZhent.cre~ //
+	SAY NAME1 @13 /* Evil Zhent */
+	SAY NAME2 @13 /* Evil Zhent */
+
+COPY ~BloodAndFaith/creatures/g_bZhen2.cre~ ~override/g_bZhen2.cre~ //
+	SAY NAME1 @13 /* Evil Zhent */
+	SAY NAME2 @13 /* Evil Zhent */
+
+COPY ~BloodAndFaith/creatures/g_bZhen3.cre~ ~override/g_bZhen3.cre~ //
+	SAY NAME1 @13 /* Evil Zhent */
+	SAY NAME2 @13 /* Evil Zhent */
+
+COPY ~BloodAndFaith/creatures/g_dop.cre~ ~override/g_dop.cre~ //
+	SAY NAME1 @14 /* Friendly Dop */
+	SAY NAME2 @14 /* Friendly Dop */
+
+COPY ~BloodAndFaith/creatures/g_lovi.cre~ ~override/g_lovi.cre~ //
+	SAY NAME1 @15 /* The Loviatan */
+	SAY NAME2 @15 /* The Loviatan */
+
+COPY ~BloodAndFaith/creatures/g_mordy.cre~ ~override/g_mordy.cre~ //
+	SAY NAME1 @16 /* Mordiyin */
+	SAY NAME2 @16 /* Mordiyin */
+
+COPY ~BloodAndFaith/creatures/g_necro.cre~ ~override/g_necro.cre~ //
+	SAY NAME1 @17 /* Necromancer */
+	SAY NAME2 @17 /* Necromancer */
+
+COPY ~BloodAndFaith/creatures/g_rat1.cre~ ~override/g_rat1.cre~ //
+	SAY NAME1 @18 /* Rat */
+	SAY NAME2 @18 /* Rat */
+
+COPY ~BloodAndFaith/creatures/g_rat2.cre~ ~override/g_rat2.cre~ //
+	SAY NAME1 @18 /* Rat */
+	SAY NAME2 @18 /* Rat */
+
+COPY ~BloodAndFaith/creatures/g_rat3.cre~ ~override/g_rat3.cre~ //
+	SAY NAME1 @18 /* Rat */
+	SAY NAME2 @18 /* Rat */
+	WRITE_ASCII 0x280 ~g_rat3~ (8) // Death var
+
+COPY ~BloodAndFaith/creatures/g_rat4.cre~ ~override/g_rat4.cre~ //
+	SAY NAME1 @18 /* Rat */
+	SAY NAME2 @18 /* Rat */
+
+COPY ~BloodAndFaith/creatures/g_rat5.cre~ ~override/g_rat5.cre~ //
+	SAY NAME1 @18 /* Rat */
+	SAY NAME2 @18 /* Rat */
+
+COPY ~BloodAndFaith/creatures/g_rat6.cre~ ~override/g_rat6.cre~ //
+	SAY NAME1 @18 /* Rat */
+	SAY NAME2 @18 /* Rat */
+
+COPY ~BloodAndFaith/creatures/g_rat7.cre~ ~override/g_rat7.cre~ //
+	SAY NAME1 @18 /* Rat */
+	SAY NAME2 @18 /* Rat */
+
+COPY ~BloodAndFaith/creatures/g_rk.cre~ ~override/g_rk.cre~ //
+	SAY NAME1 @19 /* The Rat King */
+	SAY NAME2 @19 /* The Rat King */
+
+COPY ~BloodAndFaith/creatures/g_rZhent.cre~ ~override/g_rZhent.cre~ //
+	SAY NAME1 @20 /* Renegade */
+	SAY NAME2 @20 /* Renegade */
+
+COPY ~BloodAndFaith/creatures/g_thief.cre~ ~override/g_thief.cre~ //
+	SAY NAME1 @21 /* Ex-Thief */
+	SAY NAME2 @21 /* Ex-Thief */
+
+COPY ~BloodAndFaith/creatures/g_zhent1.cre~ ~override/g_zhent1.cre~ //
+	SAY NAME1 @22 /* Zhent Agent */
+	SAY NAME2 @22 /* Zhent Agent */
+
+COPY ~BloodAndFaith/creatures/gg_malar.cre~ ~override/gg_malar.cre~ //
+	SAY NAME1 @23 /* Malarite */
+	SAY NAME2 @23 /* Malarite */
+
+COPY ~BloodAndFaith/creatures/gg_can.cre~ ~override/gg_can.cre~ //
+	SAY NAME1 @24 /* Lenovela the Cannibal */
+	SAY NAME2 @24 /* Lenovela the Cannibal */
+
+COPY ~BloodAndFaith/creatures/g_eloran.cre~ ~override/g_eloran.cre~ //
+	SAY NAME1 @25 /* Eloran */
+	SAY NAME2 @25 /* Eloran */
+
+COPY ~BloodAndFaith/items/gBFcc.itm~ ~override/gBFcc.itm~ 
+     SAY NAME1 @26 /* Coin Collection */
+     SAY NAME2 @26 /* Coin Collection */
+     SAY DESC @27 /* This coin collection doesn’t have much value, except to the most avid of collectors. */
+
+COPY ~BloodAndFaith/items/gBFed.itm~ ~override/gBFed.itm~
+    SAY NAME1 @28 /* Encoded Documents */
+    SAY NAME2 @28 /* Encoded Documents */
+    SAY DESC @29 /* This documents are encoded in a way that you've never seen before. */
+
+
+
+COPY ~BloodAndFaith/Areas/g_warren.are~ ~override~
+	WRITE_ASCIIE 0x08 ~%WerewolfCaverns%~ (8)
+  LPF  ALTER_AREA_REGION
+    STR_VAR
+    region_name              = Door2001 
+    destination_area =  EVAL ~%CoastWay%~
+  END
+
+// Missing BPSPID02.CRE from EE in g_warren.are
+		ACTION_IF GAME_IS ~bgt~ AND NOT FILE_EXISTS_IN_GAME ~BPSPID02.CRE~ BEGIN
+COPY_EXISTING ~SPIDGI01.CRE~ ~override/BPSPID02.CRE~
+		END
+
+
+COPY_EXISTING ~%CoastWay%.are~ ~override~
+  LPF fj_are_structure
+    INT_VAR
+    fj_type         = 2    //travel
+    fj_box_left     = 2523  
+    fj_box_top      = 3130 
+    fj_box_right    = 2638  
+    fj_box_bottom   = 3211  
+    fj_cursor_idx   = 30   // door symbol
+    fj_vertex_1    = 2638  + (3168 << 16) 
+    fj_vertex_2    	= 2524  + (3140  << 16) 
+    fj_vertex_3     = 2523  + (3201  << 16) 
+    fj_vertex_0   = 2637  + (3211 << 16) 
+    STR_VAR
+    fj_structure_type   = region
+    fj_name             = Tran_G_WAREnter // name of this travel region so you can address it via script etc.
+    fj_destination_area = g_warren	// *.ARE
+    fj_destination_name = Exit2001 // name of exitpoint in destination area
+  END
+
+//exit point for back travel
+  LPF fj_are_structure
+    INT_VAR
+    fj_loc_x       = 2570 
+    fj_loc_y       = 3250 
+    fj_orientation = 6   // NW
+    STR_VAR
+    fj_structure_type = entrance
+    fj_name           = Tran_G_WAROut
+  END
+
+	ADD_MAP_NOTE #2617 #3161 ~violet~ @30 /* Warrens */
+
+
+
+
+
+
+
+
