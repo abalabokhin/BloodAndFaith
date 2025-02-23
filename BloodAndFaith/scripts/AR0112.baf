@@ -1,0 +1,11 @@
+//spawns mordy
+
+IF
+Global("GmordySp","GLOBAL",0) Global("gBFq15","GLOBAL",1) 
+THEN
+RESPONSE #100
+CreateCreature("g_mordy",[2069.420],3)  
+SetGlobal("GmordySp","GLOBAL",1)
+
+Continue()
+END

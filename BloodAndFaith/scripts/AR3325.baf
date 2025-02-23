@@ -1,0 +1,10 @@
+//spawns homeowner woman with rat probelm
+
+IF
+Global("GwomanSp","GLOBAL",0) Global("gBFq4","GLOBAL",1) 
+THEN
+RESPONSE #100
+CreateCreature("g_bfhow",[408.265],3)  
+SetGlobal("GwomanSp","GLOBAL",1)
+Continue()
+END

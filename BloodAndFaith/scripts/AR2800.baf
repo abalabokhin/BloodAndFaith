@@ -1,0 +1,11 @@
+//spawns zhent1
+
+
+IF
+	Global("GbzhentSp","GLOBAL",0) Global("gBFq5","GLOBAL",1) 
+	THEN
+	RESPONSE #100
+	CreateCreature("g_Zhent1",[1285.780],3)  
+	SetGlobal("GbzhentSp","GLOBAL",1)
+	Continue()
+END
