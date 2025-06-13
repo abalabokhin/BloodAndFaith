@@ -35,7 +35,7 @@ ALWAYS
 // Convert tra files in UTF8 if EE and let them in ANSI if oBG
 
 	ACTION_IF GAME_IS ~bgee eet~ BEGIN
-  ACTION_DEFINE_ARRAY BloodAndFaith_noconvert BEGIN BloodAndFaith END
+//  ACTION_DEFINE_ARRAY BloodAndFaith_noconvert BEGIN BloodAndFaith END
 
 		ACTION_DEFINE_ARRAY BloodAndFaith_reload BEGIN BloodAndFaith JournalEntries END
 
