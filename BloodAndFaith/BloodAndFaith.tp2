@@ -46,7 +46,7 @@ ALWAYS
 				tra_path = EVAL ~weidu_external/BloodAndFaith/Languages/autotra~
 				out_path = EVAL ~weidu_external/BloodAndFaith/Languages/autotra/UTF8~
 				iconv_path = ~BloodAndFaith/Languages/autotra/iconv~
-				noconvert_array = BloodAndFaith_noconvert
+				// noconvert_array = BloodAndFaith_noconvert
 				reload_array = BloodAndFaith_reload
 			END
 
